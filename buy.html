@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buy & Swap CIB</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: linear-gradient(180deg, #fff9d6 0%, #fff6b0 100%);
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 8px;
+      color: #000;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .box {
+      background: #fffbe6;
+      border: 2px solid #000;
+      border-radius: 15px;
+      padding: 8px;
+      margin: 8px 0;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+
+    /* ===== Header Box ===== */
+    .header-box {
+      background: #ffcc00;
+      border-radius: 15px;
+      border: 2px solid #000;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-box img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      margin-right: 8px;
+      animation: spin 10s linear infinite;
+    }
+
+    .header-box h3 {
+      font-size: 14px;
+      margin: 0;
+      font-weight: bold;
+    }
+
+    /* ===== Buttons ===== */
+    .swap-btn {
+      width: 90%;
+      padding: 9px;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-weight: bold;
+      margin: 4px 0;
+      cursor: pointer;
+      box-shadow: 0 3px rgba(0,0,0,0.3);
+      font-size: 13px;
+    }
+
+    .swap-btn.phantom { background-color: #7c3aed; }
+    .swap-btn.backpack { background-color: #ff6600; }
+    .swap-btn.jupiter { background-color: #1e90ff; }
+    .swap-btn.raydium { background-color: #9933ff; }
+
+    /* ===== Exchange Box ===== */
+    .exchange-box h3 {
+      margin-top: 2px;
+      margin-bottom: 5px;
+    }
+
+    /* ===== Social Box ===== */
+    .social-box {
+      padding: 6px;
+    }
+
+    .social-box h3 {
+      margin-bottom: 5px;
+    }
+
+    .social-btn {
+      width: 95%;
+      padding: 8px;
+      margin: 4px 0;
+      border-radius: 10px;
+      font-weight: bold;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      box-shadow: 0 3px rgba(0,0,0,0.25);
+    }
+
+    .social-btn.discord { background-color: #5865f2; }
+    .social-btn.instagram { background-color: #e1306c; }
+    .social-btn.facebook { background-color: #1877f2; }
+    .social-btn.tiktok { background-color: #010101; }
+    .social-btn.medium { background-color: #00ab6c; }
+
+    /* ===== DAO Box ===== */
+    .dao-box {
+      background: #fffbe6;
+      border: 2px solid #000;
+      border-radius: 15px;
+      padding: 8px;
+      font-size: 10px;
+      line-height: 1.3;
+    }
+
+    .dao-box input {
+      width: 90%;
+      padding: 5px;
+      border: 2px solid #000;
+      border-radius: 10px;
+      margin-top: 4px;
+    }
+
+    .dao-stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 4px;
+      font-size: 10px;
+    }
+
+    .dao-box button {
+      background: #00b359;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      padding: 6px 10px;
+      margin-top: 4px;
+      box-shadow: 0 3px #007a3d;
+      cursor: pointer;
+    }
+
+    /* ===== Back Button ===== */
+    .back-btn {
+      width: 90%;
+      padding: 8px;
+      margin-top: 6px;
+      background: #007bff;
+      color: #fff;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 3px #0056b3;
+      cursor: pointer;
+    }
+
+    /* ===== Footer ===== */
+    .footer-box {
+      background: #ffcc00;
+      border-radius: 15px;
+      border: 2px solid #000;
+      padding: 8px;
+      font-size: 9px;
+      margin-top: 6px;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="box header-box">
+      <img src="https://github.com/user-attachments/assets/f8ee2ef9-0440-4101-b359-e6903c2bfe6c" alt="CIB Logo" />
+      <h3>CIB Swap & Market Access</h3>
+    </div>
+
+    <!-- Exchanges -->
+    <div class="box exchange-box">
+      <h3>Exchanges</h3>
+      <button class="swap-btn phantom" id="openPhantom">Open in Phantom</button>
+      <button class="swap-btn backpack" id="openBackpack">Open in Backpack</button>
+      <button class="swap-btn jupiter" id="openJupiter">Open in Jupiter</button>
+      <button class="swap-btn raydium" id="openRaydium">Open in Raydium</button>
+    </div>
+
+    <!-- Social Box -->
+    <div class="box social-box">
+      <h3>Follow & Earn</h3>
+      <button class="social-btn discord" data-net="discord" data-url="https://discord.gg/9HeTsHJcTq">Discord</button>
+      <button class="social-btn instagram" data-net="instagram" data-url="https://instagram.com/CIBLCOIN">Instagram</button>
+      <button class="social-btn facebook" data-net="facebook" data-url="https://facebook.com/ciblcoin">Facebook</button>
+      <button class="social-btn tiktok" data-net="tiktok" data-url="https://tiktok.com/@ciblcoin">TikTok</button>
+      <button class="social-btn medium" data-net="medium" data-url="https://medium.com/@CIBLcoin">Medium</button>
+    </div>
+
+    <!-- DAO Box -->
+    <div class="box dao-box">
+      <h3>CIB DAO</h3>
+      <p>
+        All individuals who have purchased, sold, or converted CIB tokens through Solana wallets or decentralized exchanges are considered CIB marketers and market makers.
+      </p>
+      <p>Apart from airdrops, you can receive your rewards through the following:</p>
+      <input type="text" id="walletInput" placeholder="Enter your Solana wallet" />
+      <div class="dao-stats">
+        <span>Tx: <b id="txCount">0</b></span>
+        <span>Amt: <b id="txAmount">0</b> CIB</span>
+        <span>Assigned: <b id="reward">0</b></span>
+      </div>
+      <button id="claimDao">Claim</button>
+    </div>
+
+    <!-- Back Button -->
+    <button class="back-btn" onclick="window.location.href='index.html'">⬅️ Back</button>
+
+    <!-- Footer -->
+    <div class="box footer-box">
+      <b>CIB DAO & Community</b><br />
+      You can convert any token in the Solana ecosystem to Cibl ($CIB) in any amount and participate in the largest CIB airdrop event as a community and CIB DAO.
+    </div>
+
+  </div>
+
+  <script>
+    const TOKEN_MINT = "2Lpgt5teMe4SPp1G8x1URBk6dPRoimftdANmAsFDvkPA";
+
+    document.querySelectorAll(".social-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const url = btn.dataset.url;
+        window.open(url, "_blank");
+        setTimeout(() => {
+          btn.innerText = "✅ Followed (+100M CIB)";
+          btn.disabled = true;
+        }, 15000);
+      });
+    });
+
+    function openWalletOrFallback(deepUrl, intentUrl, webUrl) {
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const timeout = 1200;
+      const start = Date.now();
+      if (isAndroid && intentUrl) {
+        window.location.href = intentUrl;
+        setTimeout(() => {
+          if (Date.now() - start < timeout + 200) window.location.href = webUrl;
+        }, timeout);
+        return;
+      }
+      try {
+        window.location.href = deepUrl;
+      } catch {
+        const ifr = document.createElement("iframe");
+        ifr.style.display = "none";
+        ifr.src = deepUrl;
+        document.body.appendChild(ifr);
+        setTimeout(() => document.body.removeChild(ifr), timeout + 500);
+      }
+      setTimeout(() => {
+        if (Date.now() - start >= timeout) window.location.href = webUrl;
+      }, timeout);
+    }
+
+    const phantomDeep = `phantom://open?url=https://phantom.app/ul/v1/receive?token=${TOKEN_MINT}`;
+    const backpackDeep = `backpack://token/${TOKEN_MINT}`;
+    const jupiterDeep = `jupiter://swap?output=${TOKEN_MINT}`;
+    const raydiumDeep = `raydium://swap?output=${TOKEN_MINT}`;
+
+    const phantomWeb = `https://phantom.app/ul/v1/receive?token=${TOKEN_MINT}`;
+    const backpackWeb = `https://backpack.app/token/${TOKEN_MINT}`;
+    const jupiterWeb = `https://jup.ag/swap/SOL-${TOKEN_MINT}`;
+    const raydiumWeb = `https://raydium.io/swap/?inputMint=SOL&outputMint=${TOKEN_MINT}`;
+
+    document.getElementById("openPhantom").onclick = () => openWalletOrFallback(phantomDeep, "", phantomWeb);
+    document.getElementById("openBackpack").onclick = () => openWalletOrFallback(backpackDeep, "", backpackWeb);
+    document.getElementById("openJupiter").onclick = () => openWalletOrFallback(jupiterDeep, "", jupiterWeb);
+    document.getElementById("openRaydium").onclick = () => openWalletOrFallback(raydiumDeep, "", raydiumWeb);
+
+    document.getElementById("claimDao").addEventListener("click", async () => {
+      const wallet = document.getElementById("walletInput").value.trim();
+      if (!wallet) return alert("Please enter your wallet address.");
+      try {
+        const r = await fetch(`https://public-api.solscan.io/account/tokens?address=${wallet}`);
+        const d = await r.json();
+        const cib = d.find(t => t.tokenAddress === TOKEN_MINT);
+        const txs = Math.floor(Math.random() * 5) + 1;
+        const amount = cib ? (cib.tokenAmount.uiAmount || 0).toFixed(2) : 0;
+        const reward = (txs * 5).toFixed(2);
+        document.getElementById("txCount").innerText = txs;
+        document.getElementById("txAmount").innerText = amount;
+        document.getElementById("reward").innerText = reward + " USD in CIB";
+        alert("Your reward data updated.");
+      } catch {
+        alert("Error fetching wallet data.");
+      }
+    });
+  </script>
+</body>
+</html>

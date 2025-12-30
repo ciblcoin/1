@@ -1,6 +1,13 @@
-import { createClient } from '@supabase/supabase-js'
+import { supabase } from '@/lib/supabaseClient' // مسیر فایل سرویس‌دهنده
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+// یک تابع تست برای چک کردن اتصال
+async function testConnection() {
+  const { data, error } = await supabase.from('profiles').select('*').limit(1)
+  if(error) {
+    console.error('خطا در اتصال به Supabase:', error)
+  } else {
+    console.log('اتصال موفق! داده‌ها:', data)
+  }
+}
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// فراخوانی تابع در کد کامپوننت شما

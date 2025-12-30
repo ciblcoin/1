@@ -1,12 +1,12 @@
+The Content Security Policy (CSP) prevents the evaluation of arbitrary strings as JavaScript to make it more difficult for an attacker to inject unathorized code on your site.
+To solve this issue, avoid using eval(), new Function(), setTimeout([string], ...) and setInterval([string], ...) for evaluating strings.
+To solve this issue, avoid using eval(), new Function(), setTimeout([string], ...) and setInterval([string], ...) for evaluating strings.
+If you absolutely must: you can enable string evaluation by adding unsafe-eval as an allowed source in a script-src directive.
+⚠️ Allowing string evaluation comes at the risk of inline script injection.
+1 directive
+Source location	Directive	Status
+script-src	blocked
+Learn more: Content Security Policy - Eval
 
-﻿
-3
-injected.js:1 Provider initialised
-3
-content.js:1 Deprecation warning: tabReply will be removed
-injected.js:1 TronLink initiated
-react-dom.development.js:38560 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
-useStandardWalletAdapters.js:39 Phantom was registered as a Standard Wallet. The Wallet Adapter for Phantom can be removed from your app.
-inpage.js:1 StreamMiddleware - Unknown response id "solflare-detect-metamask"
-hot-reloader-client.js:187 [Fast Refresh] rebuilding
-hot-reloader-client.js:44 [Fast Refresh] done in 5ms
+
+

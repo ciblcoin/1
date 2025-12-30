@@ -1,1 +1,61 @@
-import { supabase } from '../../lib/supabaseClient';
+ D:\CiBL\CiBL-Wallet> npm run dev
+
+> cibl-wallet@1.0.0 dev
+> next dev
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+  - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1405ms
+ ○ Compiling / ...
+ ⨯ ./src/app/page.jsx:6:1
+Module not found: Can't resolve '../../lib/supabaseClient'
+  4 | import Link from 'next/link';
+  5 | // فراموش نشود: اضافه کردن ایمپورت Supabase
+> 6 | import { supabase } from '../../lib/supabaseClient';
+    | ^
+  7 | export default function Home() {
+  8 |   // تابع تست اتصال
+  9 |   const testSupabaseConnection = async () => {
+
+https://nextjs.org/docs/messages/module-not-found
+ ⨯ ./src/app/page.jsx:6:1
+Module not found: Can't resolve '../../lib/supabaseClient'
+  4 | import Link from 'next/link';
+  5 | // فراموش نشود: اضافه کردن ایمپورت Supabase
+> 6 | import { supabase } from '../../lib/supabaseClient';
+    | ^
+  7 | export default function Home() {
+  8 |   // تابع تست اتصال
+  9 |   const testSupabaseConnection = async () => {
+
+https://nextjs.org/docs/messages/module-not-found
+ ⨯ ./src/app/page.jsx:6:1
+Module not found: Can't resolve '../../lib/supabaseClient'
+  4 | import Link from 'next/link';
+  5 | // فراموش نشود: اضافه کردن ایمپورت Supabase
+> 6 | import { supabase } from '../../lib/supabaseClient';
+    | ^
+  7 | export default function Home() {
+  8 |   // تابع تست اتصال
+  9 |   const testSupabaseConnection = async () => {
+
+https://nextjs.org/docs/messages/module-not-found
+ GET /_next/static/webpack/762a2194a37bb454.webpack.hot-update.json 500 in 11137ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /_next/static/webpack/762a2194a37bb454.webpack.hot-update.json 500 in 8ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /_next/static/webpack/762a2194a37bb454.webpack.hot-update.json 500 in 5ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /_next/static/webpack/762a2194a37bb454.webpack.hot-update.json 500 in 6ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 500 in 10ms
+ GET / 500 in 11ms
+ GET /.well-known/appspecific/com.chrome.devtools.json 500 in 5ms
+ GET / 500 in 18ms
+ GET / 500 in 13ms
+ GET /.well-known/appspecific/com.chrome.devtools.json 500 in 6ms
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\CiBL\CiBL-Wallet\.next\cache\webpack\client-development-fallback\0.pack.gz_' -> 'D:\CiBL\CiBL-Wallet\.next\cache\webpack\client-development-fallback\0.pack.gz'
+ GET / 500 in 12ms

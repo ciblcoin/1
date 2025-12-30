@@ -1,1 +1,12 @@
-npm install --save-dev pino-pretty
+
+﻿
+3
+injected.js:1 Provider initialised
+3
+content.js:1 Deprecation warning: tabReply will be removed
+injected.js:1 TronLink initiated
+react-dom.development.js:38560 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+useStandardWalletAdapters.js:39 Phantom was registered as a Standard Wallet. The Wallet Adapter for Phantom can be removed from your app.
+inpage.js:1 StreamMiddleware - Unknown response id "solflare-detect-metamask"
+hot-reloader-client.js:187 [Fast Refresh] rebuilding
+hot-reloader-client.js:44 [Fast Refresh] done in 5ms

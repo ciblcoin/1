@@ -2,10 +2,40 @@
 
 import WalletSelector from '@/components/Wallet/WalletSelector';
 import Link from 'next/link';
+// فراموش نشود: اضافه کردن ایمپورت Supabase
+import { supabase } from '@/lib/supabaseClient';
 
 export default function Home() {
+  // تابع تست اتصال
+  const testSupabaseConnection = async () => {
+    console.log('🔍 تست اتصال Supabase شروع شد...');
+    try {
+      // یک کوئری بسیار ساده فقط برای تست اتصال
+      const { data, error } = await supabase.from('profiles').select('*').limit(1);
+      if (error) {
+        console.error('❌ خطا در اتصال به Supabase:', error.message);
+      } else {
+        console.log('✅ اتصال به Supabase موفق بود! پاسخ:', data);
+      }
+    } catch (err) {
+      console.error('❌ خطای غیرمنتظره در تست Supabase:', err);
+    }
+  };
+
+  // فراخوانی تابع تست (به عنوان مثال، می‌توانید آن را در یک useEffect قرار دهید یا با یک دکمه فراخوانی کنید)
+  // برای تست سریع، می‌توانید این خط را موقتاً فعال کنید:
+  // testSupabaseConnection();
+
   return (
     <div>
+      {/* برای تست سریع، یک دکمه موقت اضافه می‌کنیم */}
+      <button
+        onClick={testSupabaseConnection}
+        className="mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg"
+      >
+        تست اتصال Supabase
+      </button>
+
       <WalletSelector />
       
       {/* Features Grid */}
@@ -78,20 +108,3 @@ export default function Home() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-TEBI_ACCESS_KEY=cA0CzYkf8s9BldVN
-TEBI_SECRET_KEY=rCQeVCxPoPgEJbMXdWMmENBV776SAijnWUbNdaIa
-
-NEXT_PUBLIC_SUPABASE_URL=https://bovvsrwtwiifhvjzjitd.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_w4-QCl49a59sgQz5m_Wclw_6S836qpy
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_w4-QCl49a59sgQz5m_Wclw_6S836qpy
-
-

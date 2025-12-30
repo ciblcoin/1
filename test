@@ -1,13 +1,51 @@
-import { supabase } from '@/lib/supabaseClient' // مسیر فایل سرویس‌دهنده
+ D:\CiBL\CiBL-Wallet> mkdir lib
 
-// یک تابع تست برای چک کردن اتصال
-async function testConnection() {
-  const { data, error } = await supabase.from('profiles').select('*').limit(1)
-  if(error) {
-    console.error('خطا در اتصال به Supabase:', error)
-  } else {
-    console.log('اتصال موفق! داده‌ها:', data)
-  }
-}
+    Directory: D:\CiBL\CiBL-Wallet
 
-// فراخوانی تابع در کد کامپوننت شما
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        12/31/2025  12:42 PM                lib
+
+
+PS D:\CiBL\CiBL-Wallet> npm run dev
+
+> cibl-wallet@1.0.0 dev
+> next dev
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+  - Environments: .env.local
+
+ ✓ Starting...
+ ⚠ Duplicate page detected. src\app\page.js and src\app\page.jsx resolve to /
+ ⚠ Duplicate page detected. src\app\page.js and src\app\page.jsx resolve to /
+ ✓ Ready in 1468ms
+ ○ Compiling / ...
+ ⚠ ./node_modules/pino/lib/tools.js
+Module not found: Can't resolve 'pino-pretty' in 'D:\CiBL\CiBL-Wallet\node_modules\pino\lib'
+
+Import trace for requested module:
+./node_modules/pino/lib/tools.js
+./node_modules/pino/pino.js
+./node_modules/@walletconnect/logger/dist/index.es.js
+./node_modules/@walletconnect/universal-provider/dist/index.es.js
+./node_modules/@walletconnect/solana-adapter/dist/core.js
+./node_modules/@walletconnect/solana-adapter/dist/adapter.js
+./node_modules/@solana/wallet-adapter-walletconnect/lib/esm/index.js
+./node_modules/@solana/wallet-adapter-wallets/lib/esm/index.js
+./src/app/providers.jsx
+ GET / 200 in 10502ms
+ ⚠ ./node_modules/pino/lib/tools.js
+Module not found: Can't resolve 'pino-pretty' in 'D:\CiBL\CiBL-Wallet\node_modules\pino\lib'
+
+Import trace for requested module:
+./node_modules/pino/lib/tools.js
+./node_modules/pino/pino.js
+./node_modules/@walletconnect/logger/dist/index.es.js
+./node_modules/@walletconnect/universal-provider/dist/index.es.js
+./node_modules/@walletconnect/solana-adapter/dist/core.js
+./node_modules/@walletconnect/solana-adapter/dist/adapter.js
+./node_modules/@solana/wallet-adapter-walletconnect/lib/esm/index.js
+./node_modules/@solana/wallet-adapter-wallets/lib/esm/index.js
+./src/app/providers.jsx

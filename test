@@ -1,12 +1,2 @@
- D:\CiBL\CiBL-Wallet> dir lib
-
-
-    Directory: D:\CiBL\CiBL-Wallet\lib
-
-
-Mode                 LastWriteTime         Length Name
-----                 -------------         ------ ----
--a----        12/31/2025   2:00 PM            245 supabaseClinent.js
-
-
-ren lib\supabaseClinent.js lib\supabaseClient.js
+rm -rf .next
+npm run dev

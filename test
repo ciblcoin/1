@@ -7,3 +7,6 @@
 Mode                 LastWriteTime         Length Name
 ----                 -------------         ------ ----
 -a----        12/31/2025   2:00 PM            245 supabaseClinent.js
+
+
+ren lib\supabaseClinent.js lib\supabaseClient.js

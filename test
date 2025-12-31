@@ -1,2 +1,12 @@
-rm -rf .next
-npm run dev
+3injected.js:1 Provider initialised
+3content.js:1 Deprecation warning: tabReply will be removed
+(anonymous) @ content.js:1
+injected.js:1 TronLink initiated
+react-dom.development.js:38560 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+useStandardWalletAdapters.js:39 Phantom was registered as a Standard Wallet. The Wallet Adapter for Phantom can be removed from your app.
+eval @ useStandardWalletAdapters.js:39
+inpage.js:1 StreamMiddleware - Unknown response id "solflare-detect-metamask"
+(anonymous) @ inpage.js:1
+:3000/favicon.ico:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+hot-reloader-client.js:187 [Fast Refresh] rebuilding
+hot-reloader-client.js:44 [Fast Refresh] done in 7ms

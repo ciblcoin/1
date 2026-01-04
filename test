@@ -1,229 +1,113 @@
-// scripts/setupPolicies.js
-import { createClient } from '@supabase/supabase-js'
-import fs from 'fs'
-import path from 'path'
+'use client';
 
-// خواندن فایل .env.local به صورت دستی
-const envPath = path.resolve(process.cwd(), '.env.local')
-let envContent = {}
+import { useState } from 'react';
+import { createClient } from '@/lib/supabase/client';
 
-if (fs.existsSync(envPath)) {
-  const content = fs.readFileSync(envPath, 'utf8')
-  content.split('\n').forEach(line => {
-    const match = line.match(/^([^=]+)=(.*)$/)
-    if (match) {
-      const key = match[1].trim()
-      const value = match[2].trim()
-      envContent[key] = value
+export default function CreateChallenge({ currentUserId }) {
+  const [amount, setAmount] = useState(10);
+  const [assetPair, setAssetPair] = useState('SOL/USDC');
+  const [loading, setLoading] = useState(false);
+  const supabase = createClient();
+
+  const handleCreateChallenge = async () => {
+    if (!currentUserId) {
+      alert('Please sign in to create a challenge.');
+      return;
     }
-  })
-} else {
-  console.error('❌ Error: .env.local file not found at', envPath)
-  process.exit(1)
+
+    setLoading(true);
+
+    const { data, error } = await supabase
+      .from('challenges')
+      .insert([
+        {
+          creator_id: currentUserId,
+          amount: amount,
+          asset_pair: assetPair,
+          status: 'open',
+          expires_at: new Date(Date.now() + 5 * 60 * 1000).toISOString(),
+        },
+      ])
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error creating challenge:', error);
+      alert('Failed to create challenge: ' + error.message);
+    } else {
+      console.log('Challenge created:', data);
+      alert('Challenge created successfully! It is now visible to all users.');
+
+      const { error: chatError } = await supabase
+        .from('chat_messages')
+        .insert([
+          {
+            user_id: currentUserId,
+            message: `🚀 New challenge created: ${amount} USD in ${assetPair}! Click JOIN to compete.`,
+            room: 'general',
+          },
+        ]);
+        
+      if (chatError) console.error('Could not post system message:', chatError);
+      
+      setAmount(10);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="p-6 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-green-500/20 shadow-xl">
+      <h3 className="text-2xl font-bold text-white mb-2">Create Trading Challenge</h3>
+      <p className="text-slate-300 mb-6">Challenge other users with a real-time trading duel.</p>
+      
+      <div className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-slate-400 mb-2">Trading Pair</label>
+          <select
+            value={assetPair}
+            onChange={(e) => setAssetPair(e.target.value)}
+            className="w-full p-3 bg-slate-900 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-green-500"
+          >
+            <option value="SOL/USDC">SOL / USDC</option>
+            <option value="ETH/USDC">ETH / USDC</option>
+            <option value="BTC/USD">BTC / USD</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-slate-400 mb-2">Stake Amount (USD)</label>
+          <input
+            type="range"
+            min="5"
+            max="100"
+            step="5"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer"
+          />
+          <div className="flex justify-between text-sm text-slate-500 mt-1">
+            <span>$5</span>
+            <span className="text-lg font-bold text-green-400">${amount}</span>
+            <span>$100</span>
+          </div>
+        </div>
+
+        <button
+          onClick={handleCreateChallenge}
+          disabled={loading || !currentUserId}
+          className={`w-full py-3 px-4 rounded-lg font-bold text-white transition-all ${
+            !currentUserId
+              ? 'bg-gray-700 cursor-not-allowed'
+              : 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700'
+          }`}
+        >
+          {loading ? 'Creating Challenge...' : 'Create Challenge'}
+        </button>
+        
+        {!currentUserId && (
+          <p className="text-sm text-yellow-500 text-center mt-2">Please sign in to create a challenge.</p>
+        )}
+      </div>
+    </div>
+  );
 }
-
-// گرفتن متغیرهای محیطی
-const supabaseUrl = envContent.NEXT_PUBLIC_SUPABASE_URL
-const serviceRoleKey = envContent.SUPABASE_SERVICE_ROLE_KEY
-
-if (!supabaseUrl || !serviceRoleKey) {
-  console.error('❌ Error: Missing environment variables')
-  console.log('Found in .env.local:')
-  console.log('NEXT_PUBLIC_SUPABASE_URL:', supabaseUrl ? '✅ Found' : '❌ Missing')
-  console.log('SUPABASE_SERVICE_ROLE_KEY:', serviceRoleKey ? '✅ Found' : '❌ Missing')
-  console.log('\nAvailable keys:', Object.keys(envContent))
-  process.exit(1)
-}
-
-console.log('✅ Environment variables loaded successfully')
-console.log('Supabase URL:', supabaseUrl.substring(0, 20) + '...')
-console.log('Service Role Key:', serviceRoleKey.substring(0, 10) + '...')
-
-const supabase = createClient(supabaseUrl, serviceRoleKey)
-
-async function setupPolicies() {
-  console.log('🚀 Starting RLS policies setup...')
-
-  try {
-    // ==================== جدول profiles ====================
-    console.log('\n📋 Setting up policies for "profiles" table...')
-    
-    // فعال کردن RLS برای profiles
-    const { error: enableProfilesError } = await supabase.rpc('enable_rls', { table_name: 'profiles' })
-    if (enableProfilesError && !enableProfilesError.message.includes('already enabled')) {
-      console.error('Error enabling RLS for profiles:', enableProfilesError)
-    }
-
-    // حذف سیاست‌های قدیمی profiles
-    const profilesPolicies = [
-      'Users can view all profiles',
-      'Users can insert their own profile',
-      'Users can update own profile'
-    ]
-    
-    for (const policy of profilesPolicies) {
-      const { error } = await supabase.rpc('drop_policy_if_exists', { 
-        table_name: 'profiles', 
-        policy_name: policy 
-      })
-      if (error && !error.message.includes('policy')) {
-        console.log(`Policy ${policy} doesn't exist or already removed`)
-      }
-    }
-
-    // ایجاد سیاست‌های جدید برای profiles
-    // 1. SELECT: همه می‌توانند ببینند
-    const { error: selectError } = await supabase.rpc('create_policy', {
-      table_name: 'profiles',
-      policy_name: 'Users can view all profiles',
-      operation: 'SELECT',
-      using_expression: 'true'
-    })
-    if (selectError) console.error('SELECT policy error:', selectError)
-    
-    // 2. INSERT: کاربران احراز شده می‌توانند ایجاد کنند
-    const { error: insertError } = await supabase.rpc('create_policy', {
-      table_name: 'profiles',
-      policy_name: 'Users can insert their own profile',
-      operation: 'INSERT',
-      check_expression: 'auth.uid() = auth_id OR auth.uid() IS NOT NULL'
-    })
-    if (insertError) console.error('INSERT policy error:', insertError)
-    
-    // 3. UPDATE: کاربران فقط پروفایل خود را به‌روز کنند
-    const { error: updateError } = await supabase.rpc('create_policy', {
-      table_name: 'profiles',
-      policy_name: 'Users can update own profile',
-      operation: 'UPDATE',
-      using_expression: 'auth.uid() = auth_id'
-    })
-    if (updateError) console.error('UPDATE policy error:', updateError)
-
-    console.log('✅ Profiles policies setup complete')
-
-    // ==================== جدول chat_messages ====================
-    console.log('\n📋 Setting up policies for "chat_messages" table...')
-    
-    // فعال کردن RLS برای chat_messages
-    const { error: enableChatError } = await supabase.rpc('enable_rls', { table_name: 'chat_messages' })
-    if (enableChatError && !enableChatError.message.includes('already enabled')) {
-      console.error('Error enabling RLS for chat_messages:', enableChatError)
-    }
-
-    // حذف سیاست‌های قدیمی chat_messages
-    const chatPolicies = [
-      'Anyone can view messages',
-      'Authenticated users can send messages',
-      'Users can delete own messages'
-    ]
-    
-    for (const policy of chatPolicies) {
-      const { error } = await supabase.rpc('drop_policy_if_exists', { 
-        table_name: 'chat_messages', 
-        policy_name: policy 
-      })
-      if (error && !error.message.includes('policy')) {
-        console.log(`Policy ${policy} doesn't exist or already removed`)
-      }
-    }
-
-    // ایجاد سیاست‌های جدید برای chat_messages
-    const chatPolicyResults = await Promise.all([
-      supabase.rpc('create_policy', {
-        table_name: 'chat_messages',
-        policy_name: 'Anyone can view messages',
-        operation: 'SELECT',
-        using_expression: 'true'
-      }),
-      supabase.rpc('create_policy', {
-        table_name: 'chat_messages',
-        policy_name: 'Authenticated users can send messages',
-        operation: 'INSERT',
-        check_expression: 'auth.uid() IS NOT NULL'
-      }),
-      supabase.rpc('create_policy', {
-        table_name: 'chat_messages',
-        policy_name: 'Users can delete own messages',
-        operation: 'DELETE',
-        using_expression: 'auth.uid() = user_id'
-      })
-    ])
-
-    chatPolicyResults.forEach((result, index) => {
-      if (result.error) console.error(`Chat policy ${index} error:`, result.error)
-    })
-
-    console.log('✅ Chat messages policies setup complete')
-
-    // ==================== جدول challenges ====================
-    console.log('\n📋 Setting up policies for "challenges" table...')
-    
-    // فعال کردن RLS برای challenges
-    const { error: enableChallengesError } = await supabase.rpc('enable_rls', { table_name: 'challenges' })
-    if (enableChallengesError && !enableChallengesError.message.includes('already enabled')) {
-      console.error('Error enabling RLS for challenges:', enableChallengesError)
-    }
-
-    // حذف سیاست‌های قدیمی challenges
-    const challengePolicies = [
-      'Anyone can view challenges',
-      'Authenticated users can create challenges',
-      'Users can join open challenges',
-      'Creator can update own challenge'
-    ]
-    
-    for (const policy of challengePolicies) {
-      const { error } = await supabase.rpc('drop_policy_if_exists', { 
-        table_name: 'challenges', 
-        policy_name: policy 
-      })
-      if (error && !error.message.includes('policy')) {
-        console.log(`Policy ${policy} doesn't exist or already removed`)
-      }
-    }
-
-    // ایجاد سیاست‌های جدید برای challenges
-    const challengePolicyResults = await Promise.all([
-      supabase.rpc('create_policy', {
-        table_name: 'challenges',
-        policy_name: 'Anyone can view challenges',
-        operation: 'SELECT',
-        using_expression: 'true'
-      }),
-      supabase.rpc('create_policy', {
-        table_name: 'challenges',
-        policy_name: 'Authenticated users can create challenges',
-        operation: 'INSERT',
-        check_expression: 'auth.uid() = creator_id'
-      }),
-      supabase.rpc('create_policy', {
-        table_name: 'challenges',
-        policy_name: 'Users can join open challenges',
-        operation: 'UPDATE',
-        using_expression: 'auth.uid() = joiner_id AND (status = \'open\'::text)'
-      }),
-      supabase.rpc('create_policy', {
-        table_name: 'challenges',
-        policy_name: 'Creator can update own challenge',
-        operation: 'UPDATE',
-        using_expression: 'auth.uid() = creator_id'
-      })
-    ])
-
-    challengePolicyResults.forEach((result, index) => {
-      if (result.error) console.error(`Challenge policy ${index} error:`, result.error)
-    })
-
-    console.log('✅ Challenges policies setup complete')
-
-    console.log('\n🎉 All RLS policies have been successfully configured!')
-    
-  } catch (error) {
-    console.error('❌ Error setting up policies:', error.message)
-    console.error('Full error:', error)
-    process.exit(1)
-  }
-}
-
-// اجرای اسکریپت
-setupPolicies()
